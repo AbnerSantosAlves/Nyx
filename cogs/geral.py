@@ -51,14 +51,24 @@ class geral(commands.Cog):
         resultado_formatado = " + ".join(str(r) for r in resultados)
         total = sum(resultados)
 
+        embed = discord.Embed(title=f"<a:loading:1370837297355817163> Rolando {nr_dados}d{nr_rolagem}", description="Gerando...", color=cor_int)
+
+        mensagem = await ctx.send(embed=embed)
+        await asyncio.sleep(3)
+
         if len(resultado_formatado) > 2000:
-           await ctx.send(f"<:game_die:1313971447873404968> | Rolando {nr_dados}d{nr_rolagem}... Você tirou: {total}\n`Muitos dados -> {total}`")
+           embed.description=f"Você tirou: {total}\n`Muitos dados -> {total}`"
            return
         
         if nr_dados == 1:
-            await ctx.send(f"<:game_die:1313971447873404968> | Rolando {nr_dados}d{nr_rolagem}... Você tirou: {total}")
+            embed.description=f"Você tirou: {total}"
         else:
-            await ctx.send(f"<:game_die:1313971447873404968> | Rolando {nr_dados}d{nr_rolagem}... Você tirou: {total}\n`{resultado_formatado} -> {total}`")
+            embed.description(f"Você tirou: {total}\n`{resultado_formatado} -> {total}`")
+        
+        embed.title=f"<:correto:1370838889174143108> Resultado obtido de {nr_dados}d{nr_rolagem}"
+        await mensagem.edit(embed=embed)
+
+
 
         
     #Comando de cara ou coroa
