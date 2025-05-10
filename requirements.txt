@@ -1,8 +1,9 @@
-discord.py
+discord.py==2.3.2
 python-dotenv
 deep-translator
 requests
 aiohttp
 Pillow
-sqlalchemy
+SQLAlchemy
 discord-webhook
+Flask
