@@ -27,7 +27,7 @@ class geral(commands.Cog):
     @commands.command()
     async def comandos(self, ctx:commands.Context):
         emoji = "<a:CH_IconLoadingBlurple:1313891027320438835>"
-        file = discord.File(r"C:\Users\Abner\Desktop\Private - Abner\Programação\Nyx\imagens\icc2.gif", filename="icc2.gif")
+        file = discord.File(r"imagens\icc2.gif", filename="icc2.gif")
 
         help = discord.Embed(title="<:dev_azul:1313910637310513214> Todos os comandos", description="*all Nyx commands*", color=Color(cor_int))
         help.add_field(name=f"⠀\n{emoji} *__Uso geral:__*", value="> - `N'roll (número)`\n > - `N'coinflip`\n > - `N'server`\n > - `N'choose (frase, frase, frase)`\n", inline=False)
