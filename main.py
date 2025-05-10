@@ -133,7 +133,7 @@ async def abraço(ctx, membro: discord.Member):
 
     view = HugView(ctx.author, membro)
     embed = discord.Embed(
-        title="Aww... que fofo!",
+        title="Aww... que fofoo!",
         description=f"{ctx.author.mention} deu um abraço em {membro.mention}!",
         color=cor_int
     )
