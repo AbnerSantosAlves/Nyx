@@ -5,6 +5,7 @@ from discord import Color
 from discord import app_commands
 from discord.ext.commands import CommandOnCooldown
 from datetime import timedelta 
+from deep_translator import GoogleTranslator
 import asyncio
 import random
 from decimal import Decimal
@@ -12,7 +13,7 @@ import requests
 import aiohttp
 import time, os
 from cogs.database import *
-
+from PIL import Image, ImageDraw, ImageFont
 
 
 cor_atual = "000000"
@@ -248,6 +249,70 @@ class geral(commands.Cog):
                 await ctx.send(f"A aposta foi recusada por {membro.mention} ou {ctx.author.mention}!")
         except asyncio.TimeoutError:
             await ctx.send(f"{membro.mention}, o tempo para responder à aposta expirou.", ephemeral=True)
+
+            
+    @commands.command()
+    async def girar(self, ctx: commands.Context, quantidade: Decimal):
+        moedas_membro = ver_saldo(ctx.author.id)
+
+        if moedas_membro < quantidade:
+            await ctx.send("Você não pode apostar um valor que não tem.")
+            return
+        if quantidade < 250:
+            await ctx.send("Aposta inválida! O valor deve ser maior que 250.")
+            return
+        
+        roleta_resultados = [
+            ("🔴", -1, "red", "Vermelho"),
+            ("🟢", 2, "green", "Verde"),
+            ("🔵", 3, "blue", "Azul"),
+            ("🟡", 1.5, "yellow", "Amarelo"),
+            ("⚫", 0, "black", "Preto")
+        ]
+
+        mensagem = await ctx.send("Girando a roleta... 🎡")
+
+        # Simulação da roleta girando antes do resultado final
+        for _ in range(5):
+            random_emoji = random.choice(roleta_resultados)[0]
+            await asyncio.sleep(0.5)
+            await mensagem.edit(content=f"Girando... {random_emoji}")
+
+        # Escolher o resultado final
+        resultado = random.choice(roleta_resultados)
+        multiplicador, cor_hex, cor_nome = resultado[1], resultado[2], resultado[3]
+        if multiplicador > 0:
+            ganho = quantidade * (multiplicador - 1)  # O jogador recebe apenas o lucro
+        else:
+            ganho = -quantidade  # Perde a aposta inteira
+        novo_saldo = moedas_membro + (ganho - quantidade)
+        add_saldo(ctx.author.id, novo_saldo)
+
+        # Criar a imagem da roleta
+        img = Image.new("RGB", (400, 400), "white")
+        draw = ImageDraw.Draw(img)
+        font = ImageFont.truetype("arial.ttf", 30)  # Usa uma fonte padrão do sistema
+        draw.ellipse((50, 50, 350, 350), fill=cor_hex)  # Usa a cor correta
+        draw.text((160, 180), cor_nome, fill="black", font=font)
+
+        img_path = os.path.join(os.getcwd(), "roleta_resultado.png")
+        img.save(img_path)
+
+        # Verificar se a imagem foi criada
+        if not os.path.exists(img_path):
+            await ctx.send("Erro ao gerar a imagem da roleta!")
+            return
+
+        qt = formatar_moeda(quantidade)
+        await ctx.send(file=discord.File(img_path))
+        
+        # Editar a mensagem com o resultado final
+        if multiplicador > 0:
+            await mensagem.edit(content=f"A roleta parou em {cor_nome}! Você ganhou {ganho} Nyx! 💰")
+        elif multiplicador == 0:
+            await mensagem.edit(content=f"A roleta parou em {cor_nome}. Você manteve seu saldo.")
+        else:
+            await mensagem.edit(content=f"A roleta parou em {cor_nome}... Você perdeu {qt} Nyx. 😢")
 
     @commands.command(aliases=['transferir', 'pagar'])
     async def pay(self, ctx: commands.Context, membro: discord.Member, quantidade):
