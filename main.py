@@ -13,7 +13,7 @@ from threading import Thread
 
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-PORT = int(os.getenv("PORT", 3000))  # Padrão para o Render
+
 
 cumprimentos = [
     "E aí, como vocês estão?", "Bom dia, pessoal! Prontos para mais um dia?", 
@@ -48,7 +48,7 @@ def home():
     return "Bot está vivo!"
 
 def run_web_app():
-    app.run(host='0.0.0.0', port=PORT)
+    app.run(host='0.0.0.0', port=8000)
 
 async def start_web_app():
     loop = asyncio.get_running_loop()
