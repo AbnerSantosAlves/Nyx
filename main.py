@@ -26,9 +26,6 @@ cumprimentos = [
 gifs_hug = ["https://media1.tenor.com/m/nd_M3VFwVD0AAAAd/anime-hug.gif", "https://media1.tenor.com/m/FgLRE4gi5VoAAAAd/hugs-cute.gif", "https://media1.tenor.com/m/-GGSvsfmkeQAAAAd/hug.gif", "https://media1.tenor.com/m/J7eGDvGeP9IAAAAd/enage-kiss-anime-hug.gif", "https://media1.tenor.com/m/m_bbfF_KS-UAAAAd/engage-kiss-anime-hug.gif"]
 
 
-with open("config.json") as f:
-     configData = json.load(f)
-
 permissoes = discord.Intents.default()
 permissoes.message_content = True
 permissoes.members = True
@@ -147,4 +144,4 @@ async def abraço(ctx, membro: discord.Member):
 
 
 
-bot.run(configData["token"])
+bot.run(DISCORD_BOT_TOKEN)
