@@ -527,10 +527,33 @@ class geral(commands.Cog):
                 dados = response.json()
                 fato = dados['text']
                 fato = GoogleTranslator(source='auto', target='pt').translate(fato)
-                await ctx.send(f"<a:emoji_110:1327518188681957377> | **Fato aleatório:** {fato}")
+                await ctx.send(f"<:CEU_Maikima_bang:1370850425972199495> | **Fato aleatório:** {fato}")
             else:
                 await ctx.send(f"<:a_remsad:1327518743324131349> | Hm.. parece que nenhum fato aleatório foi encontrado!")
 
+    @commands.command()
+    async def dog(self, ctx):
+        url = 'https://dog.ceo/api/breeds/image/random'
+        response = requests.get(url)
+        if response.status_code == 200:
+            dados = response.json() 
+            img = dados['message']
+            embed = discord.Embed(title="", description="**Novo dog desbloqueado!**", color=cor_int)
+            embed.set_image(url=img)
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def cat(self, ctx):
+        url = "https://api.thecatapi.com/v1/images/search?limit=1&api_key=live_Sb6GQBPV6EWFIW50aXH4pbWDYtau9t3C8RVY9l5nD7nM9BQRwtZnsbRrhmL5ZOJg"
+        response = requests.get(url)
+        if response.status_code == 200:
+            dados = response.json() 
+            img = dados[0]['url']
+            embed = discord.Embed(title="", description="**Novo cat desbloqueado**", color=cor_int)
+            embed.set_image(url=img)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("Infelizmente, nenhum gato foi encontrado..")
 
     @commands.command()
     async def avatar(self, ctx:commands.Context, membro: discord.Member = None):
