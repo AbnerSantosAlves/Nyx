@@ -116,7 +116,7 @@ class geral(commands.Cog):
         # Adicionando campos no embed
         embed.add_field(name="⠀\n``Id:``", value=f"{ctx.guild.id}ㅤㅤㅤ", inline=True)
         embed.add_field(name="``Dono:``", value=f"{server.owner.display_name}ㅤㅤㅤ", inline=True)
-        embed.add_field(name="``Data de criação``", value=f"{server.created_at.strftime("%d/%m/%Y\n%H:%M:%S")}", inline=True)
+        embed.add_field(name="``Data de criação``", value=f"{server.created_at.strftime('%d/%m/%Y\n%H:%M:%S')}", inline=True)
         embed.add_field(name="``Número de membros``", value=f"{max_membros}", inline=True)
         embed.add_field(name="``Boosts:``", value=f"{boosts} impulsos", inline=True)
         embed.add_field(name="``Guias:``", value=f"Chats de texto: {total_text_channels}\nChats de voz: {total_voice_channels}\nTotal: {total_channels}\n")
