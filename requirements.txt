@@ -7,3 +7,4 @@ Pillow
 SQLAlchemy
 discord-webhook
 Flask
+keep_alive

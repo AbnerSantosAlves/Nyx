@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import asyncio
 from flask import Flask
 from threading import Thread
+from keep_alive import keep_alive
 
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -159,4 +160,6 @@ async def abraço(ctx, membro: discord.Member):
     embed.set_image(url=gif_hug)
     await ctx.send(embed=embed, view=view)
 
+
+keep_alive()
 bot.run(DISCORD_BOT_TOKEN)
