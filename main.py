@@ -8,24 +8,22 @@ import json
 import datetime
 from dotenv import load_dotenv
 import asyncio
-from flask import Flask
-from threading import Thread
 from keep_alive import keep_alive
+
 
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-
 cumprimentos = [
-    "E aí, como vocês estão?", "Bom dia, pessoal! Prontos para mais um dia?", 
-    "Olá a todos! Espero que estejam bem!", "Oi, galera! Como está indo?", 
-    "Salve, salve! Tudo tranquilo por aqui?", "Oi, pessoal! Vamos fazer algo divertido hoje?", 
-    "Olá! Quem está por aí hoje?", "E aí, pessoal! Como estão as coisas?", 
-    "Oi, gente! Espero que estejam tendo um ótimo dia!", "Olá! Animados para o que vem pela frente?", 
-    "Saudações, aventureiros! Como está a missão de hoje?", "Hey, turma! Bora colocar a conversa em dia?", 
-    "Olá, terráqueos! Como estão os humanos hoje?", "Fala, pessoal! Que tal compartilharmos umas histórias?", 
-    "Bom dia, boa tarde ou boa noite! Alguém por aí?", "Ei, amigos! Contem-me uma novidade!", 
-    "Olá, nação! Como estão dominando o universo?", "Oi, seres incríveis! Estão prontos para dominar o dia?", 
+    "E aí, como vocês estão?", "Bom dia, pessoal! Prontos para mais um dia?",
+    "Olá a todos! Espero que estejam bem!", "Oi, galera! Como está indo?",
+    "Salve, salve! Tudo tranquilo por aqui?", "Oi, pessoal! Vamos fazer algo divertido hoje?",
+    "Olá! Quem está por aí hoje?", "E aí, pessoal! Como estão as coisas?",
+    "Oi, gente! Espero que estejam tendo um ótimo dia!", "Olá! Animados para o que vem pela frente?",
+    "Saudações, aventureiros! Como está a missão de hoje?", "Hey, turma! Bora colocar a conversa em dia?",
+    "Olá, terráqueos! Como estão os humanos hoje?", "Fala, pessoal! Que tal compartilharmos umas histórias?",
+    "Bom dia, boa tarde ou boa noite! Alguém por aí?", "Ei, amigos! Contem-me uma novidade!",
+    "Olá, nação! Como estão dominando o universo?", "Oi, seres incríveis! Estão prontos para dominar o dia?",
     "Salve, salve! Prontos para mais um dia épico?", "Olá! Que tal começar o dia com energia positiva?"
 ]
 
@@ -41,27 +39,8 @@ permissoes = discord.Intents.default()
 permissoes.message_content = True
 permissoes.members = True
 
-# Web app para manter o bot online no Render
-app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "Bot está vivo!"
-
-def run_web_app():
-    app.run(host='0.0.0.0', port=8000)
-
-async def start_web_app():
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, run_web_app)
-
-# Subclasse do Bot para usar setup_hook
-class MeuBot(commands.Bot):
-    async def setup_hook(self):
-        await carregar_cogs()
-        await start_web_app()
-
-bot = MeuBot(command_prefix="N'", intents=permissoes)
+bot = commands.Bot(command_prefix="N'", intents=permissoes)
 
 cor_atual = "0xFF0000"
 cor_int = int(cor_atual, 16)
@@ -69,18 +48,16 @@ cor_int = int(cor_atual, 16)
 async def carregar_cogs():
     for arquivo in os.listdir('cogs'):
         if arquivo.endswith('.py'):
-            await bot.load_extension(f'cogs.{arquivo[:-3]}')
+          await bot.load_extension(f'cogs.{arquivo[:-3]}')
 
 @bot.event
 async def on_ready():
-    print('Estou pronto')
-    user = 1299629174008315956
-    ms = await bot.fetch_user(user)
+    print(f'Bot conectado como {bot.user}')
     await bot.change_presence(
         status=discord.Status.dnd,
         activity=discord.Activity(type=discord.ActivityType.playing, name='NXV Studios')
     )
-    await loop_messagem.start()
+    loop_messagem.start()
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -91,7 +68,8 @@ async def on_command_error(ctx, error):
 async def loop_messagem():
     msg_loop = random.choice(cumprimentos)
     canal = bot.get_channel(1283964033807941652)
-    # await canal.send(msg_loop)
+    if canal:
+        await canal.send(msg_loop)
 
 @bot.event
 async def on_message(message):
@@ -129,7 +107,6 @@ class HugView(discord.ui.View):
             description=f"{interaction.user.mention} retribuiu o abraço de {self.autor.mention}!",
             color=cor_int
         )
-
         gif_hug = random.choice(gifs_hug)
         embed.set_image(url=gif_hug)
         view = HugView(self.membro, self.autor)
@@ -138,7 +115,7 @@ class HugView(discord.ui.View):
 @bot.command(aliases=['hug', 'abraco'])
 async def abraço(ctx, membro: discord.Member):
     if membro.id == ctx.author.id:
-        bot_user = ctx.bot.user.mention  
+        bot_user = ctx.bot.user.mention
         embed = discord.Embed(
             title="Ah.. Está se sentindo sozinho? Tome!",
             description=f"{bot_user} deu um abraço em {ctx.author.mention}!",
@@ -160,6 +137,6 @@ async def abraço(ctx, membro: discord.Member):
     embed.set_image(url=gif_hug)
     await ctx.send(embed=embed, view=view)
 
-
+# Iniciar servidor web e o bot
 keep_alive()
 bot.run(DISCORD_BOT_TOKEN)
