@@ -1,7 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, Numeric, DateTime, DECIMAL, desc
+from sqlalchemy import create_engine, Column, Integer, DECIMAL, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import locale
 from discord.ext import commands
 
 
