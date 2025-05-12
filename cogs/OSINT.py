@@ -34,7 +34,6 @@ class OSINT(commands.Cog):
             country = result.get("country", "Não informado")
             org = result.get("org", "Não informado")
             
-            file = discord.File(r"imagens\icc2.gif", filename="icc2.gif")
             embed = discord.Embed(title=f"<a:z6check:1370930658355974224> Resultado obtido - {domain_name}", color=0x00ff00)
             embed.add_field(name="<:MD_bBluePoint:1370931323111215244> ``Registrador:``", value=f"*{registrar}*", inline=False)
             embed.add_field(name="<:MD_bBluePoint:1370931323111215244> ``Organização:``", value=f"*{org}*", inline=False)
