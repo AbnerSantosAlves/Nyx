@@ -31,7 +31,6 @@ permissoes = discord.Intents.default()
 permissoes.message_content = True
 permissoes.members = True
 bot = commands.Bot(command_prefix="N'", intents=permissoes)
-
 cor_atual = "0xFF0000"
 cor_int = int(cor_atual, 16)
 
@@ -74,6 +73,19 @@ async def loop_messagem():
 async def on_message(message):
     if message.author.bot:
         return
+    
+    if message.type == discord.MessageType.premium_guild_subscription:
+        perfil_autor = message.author.avatar.url  
+        embed = discord.Embed(
+            title=f"{message.author.display_name} Deu boost no servidor",
+            description="Muito obrigado por impulsionar o nosso servidor! Isso ajuda bastante a manter a nossa comunidade ativa e dinâmica."
+        )
+        embed.set_author(name=message.author.name, icon_url=perfil_autor)  
+        embed.set_thumbnail(url=perfil_autor)
+        embed.add_field(name="Total de Boost(server):", value=message.guild.premium_subscription_count, inline=True)
+        embed.add_field(name="Nível:", value=message.guild.premium_tier, inline=True)
+        await message.channel.send(embed=embed)
+
     
     if "salada" in message.content.lower():
         await message.reply("Eu só de canto, observando essa salada.")

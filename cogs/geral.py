@@ -154,9 +154,27 @@ class geral(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send("Infelizmente, nenhum gato foi encontrado..")
-    
 
 
+    @commands.command()
+    @commands.has_permissions(administrator = True)
+    async def embed_boost(self, ctx):
+        file = discord.File(r"imagens\Banner - Seja Boost.jpg", filename='boost.jpg')
+        embed = discord.Embed(
+            title="", 
+            description="## Impulsione o servidor\n"
+            "\nAo impulsionar o servidor, você estará contribuindo para manter todos os benefícios que tornam a nossa comunidade mais dinâmica.\n\n"
+            "**<:boost_red:1371877067473289317> Benefícios**\n"
+            "Acesso a cores exclusivas somente para Boosters\n"
+            "Permissão para enviar mídias em todos os chats\n"
+            "Você ficará em destaque na lista de membros\n"
+            "Passará a receber o dobro de XP na Loritta\n"
+            "Pode solicitar até 2 Tags personalizadas\n",
+            color=0xFFA500)
+        embed.set_image(url="attachment://boost.jpg")
+        embed.set_footer(text="Cosmos amistoso")
+
+        await ctx.send(embed=embed, file=file)
 
 
 async def setup(bot):
