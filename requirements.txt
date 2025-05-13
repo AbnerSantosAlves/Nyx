@@ -8,4 +8,3 @@ SQLAlchemy
 discord-webhook
 Flask
 keep_alive
-discord.ui
