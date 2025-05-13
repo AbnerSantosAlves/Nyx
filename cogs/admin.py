@@ -142,7 +142,6 @@ class admin(commands.Cog):
         await ctx.send(f"Todos os canais de texto foram liberados. Motivo: {reason}")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
     async def formulario_staff(self, ctx: commands.Context):
         file = discord.File(r"imagens\Banner - Seja staff.jpg", filename="staff.jpg")
         embed = discord.Embed(
