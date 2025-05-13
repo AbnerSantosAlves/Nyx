@@ -64,7 +64,7 @@ class admin(commands.Cog):
     @commands.command(aliases=['banir'])
     @commands.has_permissions(administrator = True)
     async def ban(self, ctx:commands.Context, membro:discord.Member=None, reason=None):
-        file = discord.File(r"C:\Users\Abner\Desktop\Private - Abner\Programação\Nyx\imagens\digital-person.gif", filename="person.gif")
+        file = discord.File(r"imagens\digital-person.gif", filename="person.gif")
         if membro == None or membro == ctx.message.author:
             await ctx.send("Você não pode se banir, bobinho.")
             return
@@ -91,7 +91,7 @@ class admin(commands.Cog):
     @commands.command(aliases=['expulsar'])
     @commands.has_permissions(administrator = True)
     async def kick(self, ctx:commands.Context, member:discord.Member, reason=None):
-        file = discord.File(r"C:\Users\Abner\Desktop\Private - Abner\Programação\Nyx\imagens\cubo - animation.gif", filename="icon.gif")
+        file = discord.File(r"imagens\cubo - animation.gif", filename="icon.gif")
         if member == ctx.author:
              await ctx.send("Você não pode se expulsar!")
         if reason == None:
