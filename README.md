@@ -43,23 +43,6 @@ para criar bots capazes de responder comandos, gerenciar servidores e automatiza
 
 <hr>
 
-<h2>📂 Estrutura do Projeto</h2>
-
-<pre>
-Nyx/
-│
-├── commands/        # Comandos do bot
-├── events/          # Eventos do Discord
-├── utils/           # Funções auxiliares
-├── config/          # Configurações do bot
-│
-├── main.py          # Arquivo principal
-├── requirements.txt # Dependências
-└── README.md
-</pre>
-
-<hr>
-
 <h2>⚙️ Como executar o bot</h2>
 
 <h3>1️⃣ Clonar o repositório</h3>
